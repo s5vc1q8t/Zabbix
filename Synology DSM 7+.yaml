@@ -1,0 +1,663 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: 8badcff0bcae4f678d205bdd6d1661a7
+      template: 'Synology DSM'
+      name: 'Synology DSM'
+      groups:
+        - name: Templates
+      items:
+        - uuid: 0d698a6c5e1a4fc9888e2860935bddfb
+          name: 'CPU fan status'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.4.2.0
+          key: synoSystem.cpuFanStatus
+          description: 'Returns error if system fan fails'
+          valuemap:
+            name: 'Fan status'
+          tags:
+            - tag: component
+              value: cpu
+            - tag: component
+              value: fan
+        - uuid: 64651a62e3674b278da263e0dddd2e17
+          name: 'Load Avg 1 min'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.10.1.5.1
+          key: synoSystem.laLoadInt.1
+          value_type: FLOAT
+          description: 'System load average within the last 1 minute'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: component
+              value: cpu
+        - uuid: d254fc9d203b4ec29fa79155cd65965a
+          name: 'Memory available'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.4.6.0
+          key: synoSystem.memAvailReal
+          value_type: FLOAT
+          units: B
+          description: 'The amount of real/physical memory currently unused or available'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '1024'
+          tags:
+            - tag: component
+              value: ram
+        - uuid: 71a4e81c906a4527bb2b4466b6b4ccf2
+          name: 'Memory buffer'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.4.14.0
+          key: synoSystem.memBuffer
+          units: B
+          description: 'The total amount of real or virtual memory currently allocated for use as memory buffers'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '1024'
+          tags:
+            - tag: component
+              value: ram
+        - uuid: 820c92334d724cadb54c85103339e58b
+          name: 'Memory cache'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.4.15.0
+          key: synoSystem.memCached
+          value_type: FLOAT
+          units: B
+          description: 'The total amount of real or virtual memory currently allocated for use as cached memory'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '1024'
+          tags:
+            - tag: component
+              value: ram
+        - uuid: 169d3076cf444c41b01efd01d0f4a714
+          name: 'Memory shared'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.4.13.0
+          key: synoSystem.memShared
+          units: B
+          description: 'The total amount of real or virtual memory currently allocated for use as shared memory'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '1024'
+          tags:
+            - tag: component
+              value: ram
+        - uuid: c9bb713054214a36ad4bbf5f711487e8
+          name: 'Physical memory'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.4.5.0
+          key: synoSystem.memTotalReal
+          value_type: FLOAT
+          units: B
+          description: 'The total amount of real/physical memory'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '1024'
+          tags:
+            - tag: component
+              value: ram
+        - uuid: e6361d9392dd491e9c3fe717bd45a280
+          name: Swap
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.4.3.0
+          key: synoSystem.memTotalSwap
+          units: B
+          description: 'The total amount of swap space configured for this host'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '1024'
+          tags:
+            - tag: component
+              value: ram
+        - uuid: 3b51b8463b8e4e3f82fca4e330235cf0
+          name: 'Memory utilization'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.7.2.0
+          key: synoSystem.memUtilization
+          units: '%'
+          description: 'Utilization (%) is the sum of memory usage'
+          tags:
+            - tag: component
+              value: ram
+        - uuid: af54b835b25c4d349b28b640834f7808
+          name: 'Model Name'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.5.1.0
+          key: synoSystem.modelName
+          delay: 24h
+          value_type: TEXT
+          description: 'Model name of this NAS.'
+          inventory_link: MODEL
+          tags:
+            - tag: component
+              value: 'Synology System'
+            - tag: component
+              value: 'System Information'
+        - uuid: 6a6c0feb0e0d4e4e896bfc50cfe1b597
+          name: 'Power status'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.3.0
+          key: synoSystem.powerStatus
+          description: 'Returns error if power supplies fail'
+          valuemap:
+            name: 'Power status'
+          tags:
+            - tag: component
+              value: power
+        - uuid: 97dce01e47a14b3497c8d30623023f14
+          name: 'Serial Number'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.5.2.0
+          key: synoSystem.serialNumber
+          value_type: TEXT
+          description: 'Model serial number'
+          inventory_link: SERIALNO_A
+          tags:
+            - tag: component
+              value: 'Synology System'
+            - tag: component
+              value: 'System Information'
+        - uuid: 2d7db668c995403994a2152a610bb281
+          name: 'CPU Idle'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2021.11.11.0
+          key: synoSystem.ssCpuIdle
+          units: '%'
+          description: 'The percentage of processor time spent idle, calculated over the last minute'
+          tags:
+            - tag: component
+              value: cpu
+        - uuid: f33abeba56ce4802a8e05d3a871aa11e
+          name: 'CPU System'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.11.10.0
+          key: synoSystem.ssCpuSystem
+          units: '%'
+          description: 'The percentage of CPU time spent processing system- level code, calculated over the last minute'
+          tags:
+            - tag: component
+              value: cpu
+        - uuid: 3644865516e74e149158aba4df1eeca3
+          name: 'CPU User'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2021.11.9.0
+          key: synoSystem.ssCpuUser
+          units: '%'
+          description: 'The percentage of CPU time spent processing user-level code'
+          tags:
+            - tag: component
+              value: cpu
+        - uuid: cf140e11a31d454385e3bf1c56e6fa44
+          name: 'System fan status'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.4.1.0
+          key: synoSystem.systemFanStatus
+          description: 'Returns error if system fan fails'
+          valuemap:
+            name: 'Fan status'
+          tags:
+            - tag: component
+              value: fan
+            - tag: component
+              value: 'System information'
+        - uuid: 4fff740722f54c9b9467a07871f39735
+          name: 'System status'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.1.0
+          key: synoSystem.systemStatus
+          description: 'System partition status'
+          valuemap:
+            name: 'System status'
+          tags:
+            - tag: component
+              value: 'System information'
+        - uuid: a72733f6bdcc4901964de8de0cc19ff3
+          name: Temperature
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.2.0
+          key: synoSystem.temperature
+          description: 'Temperature of this NAS'
+          tags:
+            - tag: component
+              value: 'Synology System'
+            - tag: component
+              value: 'System Information'
+        - uuid: fceef693cc7f4d678698da804679abc3
+          name: 'Thermal Status'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.8.0
+          key: synoSystem.thermalStatus
+          description: 'Returns error if thermal status is abnormal'
+          valuemap:
+            name: 'Thermal status'
+          tags:
+            - tag: components
+              value: 'System Information'
+        - uuid: b862d84c740b4a4aa445dd9505183e4e
+          name: Update
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.5.4.0
+          key: synoSystem.upgradeAvailable
+          description: 'Checks whether a new version or update of DSM is available'
+          valuemap:
+            name: Update
+          tags:
+            - tag: component
+              value: 'Synology System'
+            - tag: component
+              value: 'System Information'
+        - uuid: 88579c1c00b44196961d484ec17d1b6a
+          name: 'DSM version'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.6574.1.5.3.0
+          key: synoSystem.version
+          delay: 24h
+          value_type: TEXT
+          description: 'The version of DSM'
+          inventory_link: OS
+          tags:
+            - tag: component
+              value: 'Synology System'
+            - tag: component
+              value: 'System Information'
+      discovery_rules:
+        - uuid: d04b50e4b8c04527a529d18451ed2129
+          name: Disk
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#IFINDEX},.1.3.6.1.2.1.25.2.3.1.1,{#IFDESCR},.1.3.6.1.2.1.25.2.3.1.3,{#IFUNIT},.1.3.6.1.2.1.25.2.3.1.4]'
+          key: host.hrStorage.hrStorageTable.hrStorageEntry
+          filter:
+            conditions:
+              - macro: '{#IFDESCR}'
+                value: /volume
+          item_prototypes:
+            - uuid: 7f8596f2af724455b54856986171879b
+              name: 'Storage Size on {#IFDESCR}'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.2.1.25.2.3.1.5.{#IFINDEX}'
+              key: 'host.hrStorage.hrStorageTable.hrStorageEntry.hrStorageSize[{#IFINDEX}]'
+              units: B
+              description: 'The size of the storage represented by this entry.'
+              preprocessing:
+                - type: MULTIPLIER
+                  parameters:
+                    - '{#IFUNIT}'
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: c4d89571f5204e9d982d9e16cb8491f5
+              name: 'Storage Used on {#IFDESCR} (%)'
+              type: CALCULATED
+              key: 'host.hrStorage.hrStorageTable.hrStorageEntry.hrStorageUsed[{#IFINDEX},pct]'
+              units: '%'
+              params: 'last(//host.hrStorage.hrStorageTable.hrStorageEntry.hrStorageUsed[{#IFINDEX}])/last(//host.hrStorage.hrStorageTable.hrStorageEntry.hrStorageSize[{#IFINDEX}])*100'
+              description: '% of disk space used.'
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 819357f54b0f4818ab54c99f625d7379
+              name: 'Storage Used on {#IFDESCR}'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.2.1.25.2.3.1.6.{#IFINDEX}'
+              key: 'host.hrStorage.hrStorageTable.hrStorageEntry.hrStorageUsed[{#IFINDEX}]'
+              units: B
+              description: 'The amount of the storage represented by this entry.'
+              preprocessing:
+                - type: MULTIPLIER
+                  parameters:
+                    - '{#IFUNIT}'
+              tags:
+                - tag: component
+                  value: disk
+          graph_prototypes:
+            - uuid: d09d75b082d2447c8afc8e3cb7ac9b98
+              name: 'Disk: Storage Utilization on {#IFDESCR}'
+              width: '600'
+              height: '340'
+              show_work_period: 'NO'
+              show_triggers: 'NO'
+              type: PIE
+              show_3d: 'YES'
+              graph_items:
+                - color: C80000
+                  calc_fnc: LAST
+                  type: GRAPH_SUM
+                  item:
+                    host: 'Synology DSM'
+                    key: 'host.hrStorage.hrStorageTable.hrStorageEntry.hrStorageSize[{#IFINDEX}]'
+                - sortorder: '1'
+                  color: '969696'
+                  calc_fnc: LAST
+                  item:
+                    host: 'Synology DSM'
+                    key: 'host.hrStorage.hrStorageTable.hrStorageEntry.hrStorageUsed[{#IFINDEX}]'
+        - uuid: 46847cf8f487498cbad59fd035b2d5cb
+          name: 'Interface discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#IFNAME},1.3.6.1.2.1.31.1.1.1.1]'
+          key: net.if.discovery
+          delay: 1h
+          item_prototypes:
+            - uuid: bd463c8dcaf24b10ba62b6c62832d68e
+              name: 'Interface {#IFNAME} Incomming Packets'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.2.1.31.1.1.1.6.{#SNMPINDEX}'
+              key: 'net.if.ifHCInOctets[{#IFNAME}]'
+              value_type: FLOAT
+              units: bps
+              description: 'The total number of octets received on the interface'
+              preprocessing:
+                - type: MULTIPLIER
+                  parameters:
+                    - '8'
+                - type: CHANGE_PER_SECOND
+              tags:
+                - tag: component
+                  value: interface
+                - tag: component
+                  value: '{#IFNAME}'
+            - uuid: e9f17b10f9c3467a8f801188437861ad
+              name: 'Interface {#IFNAME} Outcomming Packets'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.2.1.31.1.1.1.10.{#SNMPINDEX}'
+              key: 'net.if.ifHCOutOctets[{#IFNAME}]'
+              value_type: FLOAT
+              units: bps
+              description: 'The total number of octets transmitted out of the interface'
+              preprocessing:
+                - type: MULTIPLIER
+                  parameters:
+                    - '8'
+                - type: CHANGE_PER_SECOND
+              tags:
+                - tag: component
+                  value: interface
+                - tag: component
+                  value: '{#IFNAME}'
+          graph_prototypes:
+            - uuid: fa7c0c0fc51a426c99d2690bff2286d2
+              name: 'Network: Traffic on Interface {#IFNAME}'
+              graph_items:
+                - drawtype: GRADIENT_LINE
+                  color: 199C0D
+                  calc_fnc: ALL
+                  item:
+                    host: 'Synology DSM'
+                    key: 'net.if.ifHCInOctets[{#IFNAME}]'
+                - sortorder: '1'
+                  drawtype: GRADIENT_LINE
+                  color: F63100
+                  calc_fnc: ALL
+                  item:
+                    host: 'Synology DSM'
+                    key: 'net.if.ifHCOutOctets[{#IFNAME}]'
+        - uuid: 816a558fe6ff400297559d859b4f7dd4
+          name: 'Disk discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.6574.2.1.1.2]'
+          key: synoDisk.diskTable.diskEntry
+          delay: 1h
+          description: 'Disk discovery'
+          item_prototypes:
+            - uuid: 1eb525ec74434e99b6edd1a46a111bd6
+              name: '{#SNMPVALUE} Disk health status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.6574.2.1.1.13.{#SNMPINDEX}'
+              key: 'synoDisk.diskTable.diskEntry.diskHealthStatus.[{#SNMPINDEX}]'
+              description: 'Current disk health status'
+              valuemap:
+                name: 'Health status'
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: bedffa1eb0ba49a4b60ec0f1d052a3cb
+              name: '{#SNMPVALUE} Model'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.6574.2.1.1.3.{#SNMPINDEX}'
+              key: 'synoDisk.diskTable.diskEntry.diskModel.[{#SNMPINDEX}]'
+              value_type: TEXT
+              description: 'Disk model'
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 409c5c9a5ac348db88e2fc94ad09d718
+              name: '{#SNMPVALUE} Status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.6574.2.1.1.5.{#SNMPINDEX}'
+              key: 'synoDisk.diskTable.diskEntry.diskStatus.[{#SNMPINDEX}]'
+              description: |
+                DiskStatus Explanation
+                Normal (1)                          The disk is functioning normally
+                Initialized (2)                       The disk has system partitions but no data
+                NotInitialized (3)                 The disk is not partitioned
+                SystemPartitionFailed (4)   Partitions on the disk are damaged
+                Crashed (5)                         The disk is damaged
+              valuemap:
+                name: 'Disk status'
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: e4ff6d38b9764df395196df6908e8343
+              name: '{#SNMPVALUE} Temperature'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.6574.2.1.1.6.{#SNMPINDEX}'
+              key: 'synoDisk.diskTable.diskEntry.diskTemperature.[{#SNMPINDEX}]'
+              units: C
+              description: 'Disk temperature'
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: ac4950c2e0814ea9be36679582d4d9d3
+              name: '{#SNMPVALUE} Type'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.6574.2.1.1.4.{#SNMPINDEX}'
+              key: 'synoDisk.diskTable.diskEntry.diskType.[{#SNMPINDEX}]'
+              value_type: TEXT
+              description: 'Disk type, e.g. SATA, SSD'
+              tags:
+                - tag: component
+                  value: disk
+        - uuid: eabe32f6784d468a85c7a776d9e66ff2
+          name: RAID/Volume
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.6574.3.1.1.2]'
+          key: synoRaid.raidTable.raidEntry
+          delay: 1h
+          item_prototypes:
+            - uuid: da935aae784c42a582b5efa8cdbff8d2
+              name: 'RAID Name {#SNMPVALUE}'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.6574.3.1.1.2.{#SNMPINDEX}'
+              key: 'synoRaid.raidTable.raidEntry.raidName.[{#SNMPINDEX}]'
+              value_type: TEXT
+              description: 'The name of each RAID in DSM'
+              tags:
+                - tag: component
+                  value: raid
+                - tag: component
+                  value: volume
+            - uuid: a46c554f782f4664b9f2db0887c80ad9
+              name: 'RAID Status {#SNMPVALUE}'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.6574.3.1.1.3.{#SNMPINDEX}'
+              key: 'synoRaid.raidTable.raidEntry.raidStatus.[{#SNMPINDEX}]'
+              description: |
+                It shows the RAID status right now
+                Normal (1)                              RAID is functioning normally
+                
+                These statuses are shown when RAID is created or deleted:
+                Repairing (2)            
+                Migrating (3)
+                Expanding (4)
+                Deleting (5)
+                Creating (6)
+                RaidSyncing (7)
+                RaidParityChecking (8)
+                RaidAssembling (9)
+                Canceling (10)
+                
+                Degrade (11)                              Degrade is shown when a tolerable failure of disk(s) occurs
+                Crashed (12)                              RAID has crashed and is now read-only
+                DataScrubbing (13)                    RAID is DataScrubbing
+                RaidDeploying (14)                    RAID is deploying Single volume on pool
+                RaidMountCache (16)                RAID is mounting SSD cache
+                RaidUnmountCache (17)            RAID is not mounting SSD cache
+                RaidExpandingUnfinishedSHR (18)  RAID continue expanding SHR if interrupted
+                RaidConvertSHRToPool (19)      RAID is converting Single volume on SHR to multiple volume on SHR
+                RaidMigrateSHR1ToSHR2 (20)  RAID is migrating SHR1 to SHR2
+                RaidUnDeploying (15)                 RAID is not deploying Single volume on pool
+                RaidUnknownStatus (21)            RAID status is not included in the status above
+              valuemap:
+                name: 'RAID Status'
+              tags:
+                - tag: component
+                  value: raid
+        - uuid: 54076dcb2d1f4bbd9d9bc71842c9e233
+          name: 'Service discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.6574.6.1.1.2]'
+          key: synoService.serviceTable.serviceName
+          description: 'The name of the service'
+          item_prototypes:
+            - uuid: 72b593510bf2464392d68b4dfd691f83
+              name: 'Service {#SNMPVALUE}'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.6574.6.1.1.3.{#SNMPINDEX}'
+              key: 'synoService.serviceTable.serviceUsers.[{#SNMPVALUE}]'
+              description: 'The number of users using this service'
+              tags:
+                - tag: component
+                  value: service
+      tags:
+        - tag: class
+          value: nas
+        - tag: os
+          value: dsm
+        - tag: target
+          value: synology
+      valuemaps:
+        - uuid: 4acdad7136b94a35a4cc634cb07a4118
+          name: 'Disk status'
+          mappings:
+            - value: '1'
+              newvalue: Normal
+            - value: '2'
+              newvalue: Initialized
+            - value: '3'
+              newvalue: NotInitialized
+            - value: '4'
+              newvalue: SystemPartitionFailed
+            - value: '5'
+              newvalue: Crashed
+        - uuid: 7ecc829d079a447db11bcb1a54935110
+          name: 'Fan status'
+          mappings:
+            - value: '1'
+              newvalue: Normal
+            - value: '2'
+              newvalue: Failed
+        - uuid: 42a8b7644337462b8a6bfaf0623af5a1
+          name: 'Health status'
+          mappings:
+            - value: '1'
+              newvalue: Normal
+            - value: '2'
+              newvalue: Warning
+            - value: '3'
+              newvalue: Critical
+            - value: '4'
+              newvalue: Failing
+        - uuid: 76556961b9294fca8c9da7682cd0853d
+          name: 'Power status'
+          mappings:
+            - value: '1'
+              newvalue: Normal
+            - value: '2'
+              newvalue: Failed
+        - uuid: c30510d9da4b4f279e665a9ad913cc60
+          name: 'RAID Status'
+          mappings:
+            - value: '1'
+              newvalue: Normal
+            - value: '2'
+              newvalue: Repairing
+            - value: '3'
+              newvalue: Migrating
+            - value: '4'
+              newvalue: Expanding
+            - value: '5'
+              newvalue: Deleting
+            - value: '6'
+              newvalue: Creating
+            - value: '7'
+              newvalue: RaidSyncing
+            - value: '8'
+              newvalue: RaidParityChecking
+            - value: '9'
+              newvalue: RaidAssembling
+            - value: '10'
+              newvalue: Canceling
+            - value: '11'
+              newvalue: Degrade
+            - value: '12'
+              newvalue: Crashed
+            - value: '13'
+              newvalue: DataScrubbing
+            - value: '14'
+              newvalue: RaidDeploying
+            - value: '15'
+              newvalue: 'RAID is not deploying Single volume on pool'
+            - value: '16'
+              newvalue: 'RAID is mounting SSD cache'
+            - value: '17'
+              newvalue: 'RAID is not mounting SSD cache'
+            - value: '18'
+              newvalue: 'RAID continue expanding SHR if interrupted'
+            - value: '19'
+              newvalue: 'RAID is converting Single volume on SHR to multiple volume  SHR'
+            - value: '20'
+              newvalue: 'RAID is migrating SHR1 to SHR2'
+            - value: '21'
+              newvalue: 'RAID status is not included in the status above'
+        - uuid: 1e32c6836af44178bfe8d1dee7f4a88c
+          name: 'System status'
+          mappings:
+            - value: '1'
+              newvalue: Normal
+            - value: '2'
+              newvalue: Failed
+        - uuid: 2f01f04f879642be8ed3dc46006dbc13
+          name: 'Thermal status'
+          mappings:
+            - value: '1'
+              newvalue: Normal
+            - value: '2'
+              newvalue: Failed
+        - uuid: c7beebdcbd4848b19b1b2dc8c03e7380
+          name: Update
+          mappings:
+            - value: '1'
+              newvalue: Available
+            - value: '2'
+              newvalue: Unavailable
+            - value: '3'
+              newvalue: Connecting
+            - value: '4'
+              newvalue: Disconnected
+            - value: '5'
+              newvalue: Others
